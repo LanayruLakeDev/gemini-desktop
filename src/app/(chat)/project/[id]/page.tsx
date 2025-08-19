@@ -5,7 +5,7 @@ import { ProjectDropdown } from "@/components/project-dropdown";
 import PromptInput from "@/components/prompt-input";
 import { ThreadDropdown } from "@/components/thread-dropdown";
 import { useChat } from "@ai-sdk/react";
-import { ChatApiSchemaRequestBody, Project } from "app-types/chat";
+import { Project } from "app-types/chat";
 import { generateUUID } from "lib/utils";
 
 import {
@@ -20,7 +20,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import { Button } from "ui/button";
 import { useShallow } from "zustand/shallow";
 import { toast } from "sonner";
@@ -106,12 +106,12 @@ export default function ProjectPage() {
       setIsCreatingThread(false);
     },
     body: {
-      threadId,
+      id: threadId,
       chatModel: model,
       toolChoice,
       allowedMcpServers,
       allowedAppDefaultToolkit,
-    } satisfies ChatApiSchemaRequestBody,
+    },
   });
 
   const handleSubmit = () => {
