@@ -114,5 +114,6 @@ tmp/
 temp/
 
 # Drizzle
-**/migrations/**/*.sql
+# Don't ignore migration files - they need to be committed for deployment
+# **/migrations/**/*.sql
 *.db-journal
