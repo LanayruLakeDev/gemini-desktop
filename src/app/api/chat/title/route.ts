@@ -51,6 +51,7 @@ export async function POST(request: Request) {
                 id: threadId,
                 title: ctx.text,
                 userId: session.user.id,
+                projectId: null,
               })
               .catch((err) => logger.error(err));
           },

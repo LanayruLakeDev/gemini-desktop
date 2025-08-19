@@ -84,6 +84,7 @@ export async function POST(request: Request) {
         id,
         title: "",
         userId: session.user.id,
+        projectId: null,
       });
       thread = await chatRepository.selectThreadDetails(newThread.id);
     }
