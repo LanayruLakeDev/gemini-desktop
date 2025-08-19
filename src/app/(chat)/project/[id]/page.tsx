@@ -5,7 +5,6 @@ import { ProjectDropdown } from "@/components/project-dropdown";
 import PromptInput from "@/components/prompt-input";
 import { ThreadDropdown } from "@/components/thread-dropdown";
 import { useChat } from "@ai-sdk/react";
-import { Project } from "app-types/chat";
 import { generateUUID } from "lib/utils";
 
 import {
@@ -74,8 +73,6 @@ export default function ProjectPage() {
   const router = useRouter();
   const threadId = useMemo(() => generateUUID(), []);
 
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
   const [
     appStoreMutate,
     model,
@@ -113,10 +110,6 @@ export default function ProjectPage() {
       allowedAppDefaultToolkit,
     },
   });
-
-  const handleSubmit = () => {
-    setIsCreatingThread(true);
-  };
 
   useEffect(() => {
     if (project) {
@@ -188,7 +181,7 @@ export default function ProjectPage() {
               }
               icon={<Pencil size={18} className="text-muted-foreground" />}
               onClick={() => {
-                project && setSelectedProject(project);
+                // TODO: Implement project instructions editor
               }}
             />
           </div>
@@ -256,7 +249,6 @@ export default function ProjectPage() {
             setInput={setInput}
             isLoading={isChatLoading}
             onStop={stop}
-            onSubmit={handleSubmit}
           />
         </div>
       </div>
