@@ -113,9 +113,6 @@ pids
 tmp/
 temp/
 
-# Reference projects
-anp-chat-reference/
-
 # Drizzle
 # Don't ignore migration files - they need to be committed for deployment
 # **/migrations/**/*.sql

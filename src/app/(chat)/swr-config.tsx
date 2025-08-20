@@ -9,7 +9,7 @@ export function SWRConfigProvider({
 }) {
   useEffect(() => {
     console.log(
-      "%c█▄▄ █▀▀ ▀█▀ ▀█▀ █▀▀ █▀█\n█▄█ █▄▄  █   █  █▄▄ █▀▄\n\n%c⛓️ Gemini Desktop - Your AI Assistant\nhttps://github.com/LanayruLakeDev/gemini-desktop",
+      "%c█▄▄ █▀▀ ▀█▀ ▀█▀ █▀▀ █▀█\n█▄█ █▄▄  █   █  █▄▄ █▀▄\n\n%c⛓️ Just a Better Chatbot\nhttps://github.com/cgoinglove/better-chatbot",
       "color: #00d4ff; font-weight: bold; font-family: monospace; font-size: 16px; text-shadow: 0 0 10px #00d4ff;",
       "color: #888; font-size: 12px;",
     );

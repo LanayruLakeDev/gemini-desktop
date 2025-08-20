@@ -178,7 +178,7 @@
       "createAccount": "Create account"
     },
     "Intro": {
-      "description": "Welcome to Gemini Desktop. Sign in to experience our AI-powered conversational tools."
+      "description": "Welcome to better-chatbot. Sign in to experience our AI-powered conversational tools."
     }
   },
   "Chat": {
@@ -288,7 +288,7 @@
     "Project": {
       "project": "Project",
       "projectName": "Name",
-      "enterNameForNewProject": "Enter a name for your new project",
+      "enterNameForNewProject": "Enter name for new project",
       "provideCustomInstructionsForYourProjectAssistant": "Provide custom instructions for your project assistant",
       "createProject": "Create Project",
       "whatIsAProject": "What is a project?",
@@ -308,11 +308,7 @@
       "projectInstructionsUpdated": "Project instructions updated",
       "instructions": "Instructions",
       "renameProject": "Rename Project",
-      "deleteProject": "Delete Project",
-      "howCanTheChatBotBestHelpYouWithThisProject": "How can the ChatBot best help you with this project?",
-      "youCanAskTheChatBotToFocusOnASpecificTopicOrToRespondInAParticularToneOrFormat": "You can ask the ChatBot to focus on a specific topic or to respond in a particular tone or format.",
-      "placeholder": "e.g. You are a Korean travel guide ChatBot. Respond only in Korean, include precise times for every itinerary item, and present transportation, budget, and dining recommendations succinctly in a table format.",
-      "generateWithAI": "Generate With AI"
+      "deleteProject": "Delete Project"
     }
   },
   "Layout": {

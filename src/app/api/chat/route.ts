@@ -65,7 +65,6 @@ export async function POST(request: Request) {
 
     const {
       id,
-      projectId,
       message,
       chatModel,
       toolChoice,
@@ -85,7 +84,7 @@ export async function POST(request: Request) {
         id,
         title: "",
         userId: session.user.id,
-        projectId: projectId ?? null,
+        projectId: null,
       });
       thread = await chatRepository.selectThreadDetails(newThread.id);
     }

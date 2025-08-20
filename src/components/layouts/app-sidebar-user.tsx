@@ -136,7 +136,7 @@ export function AppSidebarUser({
             <DropdownMenuItem
               onClick={() => {
                 window.open(
-                  "https://github.com/LanayruLakeDev/gemini-desktop/issues/new",
+                  "https://github.com/cgoinglove/better-chatbot/issues/new",
                   "_blank",
                 );
               }}

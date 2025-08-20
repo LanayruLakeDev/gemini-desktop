@@ -68,7 +68,7 @@
       "createAccount": "アカウントを作成"
     },
     "Intro": {
-      "description": "Gemini Desktop へようこそ。AIを活用した会話ツールを体験するためにサインインしてください。"
+      "description": "better-chatbot へようこそ。AIを活用した会話ツールを体験するためにサインインしてください。"
     }
   },
   "Chat": {
@@ -139,6 +139,7 @@
     },
     "Thread": {
       "chat": "チャット",
+
       "renameChat": "名前を変更",
       "deleteChat": "チャットを削除",
       "deleteUnarchivedChats": "アーカイブされていないチャットをすべて削除",
@@ -153,6 +154,7 @@
       "threadUpdated": "スレッドが更新されました",
       "areYouSureYouWantToDeleteThisChatThread": "このチャットスレッドを削除してもよろしいですか？"
     },
+
     "ChatPreferences": {
       "title": "チャット設定",
       "whatShouldWeCallYou": "何とお呼びすればよろしいですか？",
