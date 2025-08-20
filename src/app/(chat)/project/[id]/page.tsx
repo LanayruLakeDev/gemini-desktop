@@ -6,9 +6,10 @@ import { ProjectSystemMessagePopup } from "@/components/project-system-message-p
 import PromptInput from "@/components/prompt-input";
 import { ThreadDropdown } from "@/components/thread-dropdown";
 import { useToRef } from "@/hooks/use-latest";
+import { useGenerateThreadTitle } from "@/hooks/queries/use-generate-thread-title";
 import { useChat } from "@ai-sdk/react";
 import { ChatApiSchemaRequestBody, Project } from "app-types/chat";
-import { generateUUID } from "lib/utils";
+import { generateUUID, truncateString } from "lib/utils";
 
 import {
   Loader,
@@ -81,6 +82,7 @@ export default function ProjectPage() {
     toolChoice,
     allowedMcpServers,
     allowedAppDefaultToolkit,
+    threadList,
   ] = appStore(
     useShallow((state) => [
       state.mutate,
@@ -88,26 +90,24 @@ export default function ProjectPage() {
       state.toolChoice,
       state.allowedMcpServers,
       state.allowedAppDefaultToolkit,
+      state.threadList,
     ]),
   );
 
-  const latestRef = useToRef({
-    model,
-    toolChoice,
-    allowedMcpServers,
-    allowedAppDefaultToolkit,
+  const generateTitle = useGenerateThreadTitle({
+    threadId,
   });
 
-  const { input, setInput, append, stop, status } = useChat({
+  const { input, setInput, append, stop, status, messages } = useChat({
     id: threadId,
     api: "/api/chat",
     experimental_prepareRequestBody: ({ messages }) => {
       const request: ChatApiSchemaRequestBody = {
         id: threadId,
-        chatModel: latestRef.current.model,
-        toolChoice: latestRef.current.toolChoice,
-        allowedAppDefaultToolkit: latestRef.current.allowedAppDefaultToolkit,
-        allowedMcpServers: latestRef.current.allowedMcpServers,
+        chatModel: model,
+        toolChoice: toolChoice,
+        allowedAppDefaultToolkit: allowedAppDefaultToolkit,
+        allowedMcpServers: allowedMcpServers,
         projectId: id as string,
         message: messages.at(-1)!,
       };
@@ -118,10 +118,37 @@ export default function ProjectPage() {
     generateId: generateUUID,
     experimental_throttle: 100,
     onFinish: () => {
+      const messages = latestRef.current.messages;
+      const prevThread = latestRef.current.threadList.find(
+        (v) => v.id === threadId,
+      );
+      const isNewThread =
+        !prevThread?.title &&
+        messages.filter((v) => v.role === "user" || v.role === "assistant")
+          .length < 3;
+      
+      if (isNewThread) {
+        const part = messages
+          .slice(0, 2)
+          .flatMap((m) =>
+            (m.parts || [])
+              .filter((v) => v.type === "text")
+              .map((p) => `${m.role}: ${truncateString(p.text, 500)}`),
+          );
+        if (part.length > 0) {
+          generateTitle(part.join("\n\n"));
+        }
+      }
+      
       mutate("threads").then(() => {
         router.push(`/chat/${threadId}`);
       });
     },
+  });
+
+  const latestRef = useToRef({
+    messages,
+    threadList,
   });
 
   const isCreatingThread = useMemo(() => {

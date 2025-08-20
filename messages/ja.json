@@ -68,7 +68,7 @@
       "createAccount": "アカウントを作成"
     },
     "Intro": {
-      "description": "better-chatbot へようこそ。AIを活用した会話ツールを体験するためにサインインしてください。"
+      "description": "Ambition AI へようこそ。高度なAIを活用した会話ツールを体験するためにサインインしてください。"
     }
   },
   "Chat": {
@@ -139,7 +139,6 @@
     },
     "Thread": {
       "chat": "チャット",
-
       "renameChat": "名前を変更",
       "deleteChat": "チャットを削除",
       "deleteUnarchivedChats": "アーカイブされていないチャットをすべて削除",
@@ -154,7 +153,6 @@
       "threadUpdated": "スレッドが更新されました",
       "areYouSureYouWantToDeleteThisChatThread": "このチャットスレッドを削除してもよろしいですか？"
     },
-
     "ChatPreferences": {
       "title": "チャット設定",
       "whatShouldWeCallYou": "何とお呼びすればよろしいですか？",
@@ -176,6 +174,33 @@
       "userInstructionsDescription": "自己紹介をして、よりパーソナライズされた回答を受け取りましょう。",
       "mcpInstructions": "MCP 指示",
       "mcpInstructionsDescription": "MCP サーバーの指示をカスタマイズします。"
+    },
+    "Project": {
+      "project": "プロジェクト",
+      "renameProject": "プロジェクト名を変更",
+      "deleteProject": "プロジェクトを削除",
+      "projectName": "名前",
+      "enterNameForNewProject": "新しいプロジェクトの名前を入力してください",
+      "provideCustomInstructionsForYourProjectAssistant": "プロジェクトアシスタント用のカスタム指示を提供してください",
+      "createProject": "プロジェクトを作成",
+      "whatIsAProject": "プロジェクトとは何ですか？",
+      "aProjectAllowsYouToOrganizeYourFilesAndCustomInstructionsInOneConvenientPlace": "プロジェクトを使用すると、ファイルとカスタム指示を1つの便利な場所で整理できます。",
+      "failedToUpdateProject": "プロジェクトの更新に失敗しました",
+      "projectUpdated": "プロジェクトが更新されました",
+      "failedToDeleteProject": "プロジェクトの削除に失敗しました",
+      "projectDeleted": "プロジェクトが削除されました",
+      "projectCreated": "プロジェクトが作成されました",
+      "creatingChat": "チャットを作成中...",
+      "chatInThisProjectCanAccessFileContents": "このプロジェクトのチャットはファイルの内容にアクセスできます。",
+      "writeHowTheChatbotShouldRespondToThisProjectOrWhatInformationItNeeds": "AIがこのプロジェクトにどのように応答すべきか、またはどのような情報が必要かを書いてください。",
+      "conversationList": "会話リスト",
+      "enterNewPromptToStartYourFirstConversation": "最初の会話を始めるために新しい質問を入力してください",
+      "noConversationsYet": "まだ会話がありません",
+      "projectInstructions": "プロジェクト指示",
+      "projectInstructionsUpdated": "プロジェクト指示が更新されました",
+      "howCanTheChatBotBestHelpYouWithThisProject": "AIはこのプロジェクトでどのようにお手伝いできますか？",
+      "youCanAskTheChatBotToFocusOnASpecificTopicOrToRespondInAParticularToneOrFormat": "AIに特定のトピックに焦点を当てるか、特定のトーンや形式で応答するよう依頼できます。",
+      "instructions": "指示"
     }
   },
   "Layout": {

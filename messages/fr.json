@@ -68,7 +68,7 @@
       "createAccount": "Créer un compte"
     },
     "Intro": {
-      "description": "Bienvenue sur better-chatbot. Connectez-vous pour découvrir nos outils de conversation alimentés par l'IA."
+      "description": "Bienvenue sur Ambition AI. Connectez-vous pour découvrir nos outils de conversation avancés alimentés par l'IA."
     }
   },
   "Chat": {
@@ -139,7 +139,6 @@
     },
     "Thread": {
       "chat": "Chat",
-
       "renameChat": "Renommer",
       "deleteChat": "Supprimer le Chat",
       "deleteUnarchivedChats": "Supprimer Tous les Chats Non Archivés",
@@ -154,7 +153,6 @@
       "threadUpdated": "Fil mis à jour",
       "areYouSureYouWantToDeleteThisChatThread": "Êtes-vous sûr de vouloir supprimer ce fil de chat ?"
     },
-
     "ChatPreferences": {
       "title": "Préférences de Chat",
       "whatShouldWeCallYou": "Comment devrions-nous vous appeler ?",
@@ -176,6 +174,33 @@
       "userInstructionsDescription": "Présentez-vous et obtenez une réponse plus personnalisée.",
       "mcpInstructions": "Instructions MCP",
       "mcpInstructionsDescription": "Personnalisez les instructions du serveur MCP."
+    },
+    "Project": {
+      "project": "Projet",
+      "renameProject": "Renommer le Projet",
+      "deleteProject": "Supprimer le Projet",
+      "projectName": "Nom",
+      "enterNameForNewProject": "Entrez un nom pour votre nouveau projet",
+      "provideCustomInstructionsForYourProjectAssistant": "Fournissez des instructions personnalisées pour votre assistant de projet",
+      "createProject": "Créer un Projet",
+      "whatIsAProject": "Qu'est-ce qu'un projet ?",
+      "aProjectAllowsYouToOrganizeYourFilesAndCustomInstructionsInOneConvenientPlace": "Un projet vous permet d'organiser vos fichiers et instructions personnalisées en un seul endroit pratique.",
+      "failedToUpdateProject": "Échec de mise à jour du projet",
+      "projectUpdated": "Projet mis à jour",
+      "failedToDeleteProject": "Échec de suppression du projet",
+      "projectDeleted": "Projet supprimé",
+      "projectCreated": "Projet créé",
+      "creatingChat": "Création du Chat...",
+      "chatInThisProjectCanAccessFileContents": "Le chat dans ce projet peut accéder au contenu des fichiers.",
+      "writeHowTheChatbotShouldRespondToThisProjectOrWhatInformationItNeeds": "Écrivez comment le chatbot devrait répondre à ce projet ou quelles informations il a besoin.",
+      "conversationList": "Liste des Conversations",
+      "enterNewPromptToStartYourFirstConversation": "Entrez une nouvelle question pour commencer votre première conversation",
+      "noConversationsYet": "Aucune conversation pour le moment",
+      "projectInstructions": "Instructions du Projet",
+      "projectInstructionsUpdated": "Instructions du projet mises à jour",
+      "howCanTheChatBotBestHelpYouWithThisProject": "Comment l'IA peut-elle mieux vous aider avec ce projet ?",
+      "youCanAskTheChatBotToFocusOnASpecificTopicOrToRespondInAParticularToneOrFormat": "Vous pouvez demander à l'IA de se concentrer sur un sujet spécifique ou de répondre dans un ton ou format particulier.",
+      "instructions": "Instructions"
     }
   },
   "Layout": {
@@ -221,7 +246,6 @@
     "theme": "Thème",
     "signOut": "Se déconnecter",
     "language": "Langue",
-
     "showAllChats": "Voir Tous les Chats",
     "showLessChats": "Afficher moins",
     "reportAnIssue": "Signaler un problème",

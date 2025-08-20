@@ -18,9 +18,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "better-chatbot",
+  title: "Ambition AI",
   description:
-    "Better Chatbot is a chatbot that uses the Tools to answer questions.",
+    "Ambition AI is an advanced AI assistant that uses powerful tools to answer questions and help you achieve your goals.",
 };
 
 // const themes = BASE_THEMES.flatMap((t) => [t, `${t}-dark`]);

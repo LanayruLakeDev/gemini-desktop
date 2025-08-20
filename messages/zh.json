@@ -140,7 +140,6 @@
     },
     "Thread": {
       "chat": "聊天",
-
       "renameChat": "重命名",
       "deleteChat": "删除聊天",
       "deleteUnarchivedChats": "删除所有未归档的聊天",
@@ -155,7 +154,6 @@
       "threadUpdated": "线程已更新",
       "areYouSureYouWantToDeleteThisChatThread": "您确定要删除此聊天线程吗？"
     },
-
     "ChatPreferences": {
       "title": "聊天偏好",
       "whatShouldWeCallYou": "我们应该怎么称呼您？",
@@ -177,6 +175,33 @@
       "userInstructionsDescription": "介绍自己并获得更个性化的回应。",
       "mcpInstructions": "MCP 说明",
       "mcpInstructionsDescription": "自定义 MCP 服务器说明。"
+    },
+    "Project": {
+      "project": "项目",
+      "renameProject": "重命名项目",
+      "deleteProject": "删除项目",
+      "projectName": "名称",
+      "enterNameForNewProject": "为新项目输入名称",
+      "provideCustomInstructionsForYourProjectAssistant": "为您的项目助手提供自定义指令",
+      "createProject": "创建项目",
+      "whatIsAProject": "什么是项目？",
+      "aProjectAllowsYouToOrganizeYourFilesAndCustomInstructionsInOneConvenientPlace": "项目允许您在一个便利的地方组织您的文件和自定义指令。",
+      "failedToUpdateProject": "更新项目失败",
+      "projectUpdated": "项目已更新",
+      "failedToDeleteProject": "删除项目失败",
+      "projectDeleted": "项目已删除",
+      "projectCreated": "项目已创建",
+      "creatingChat": "正在创建聊天...",
+      "chatInThisProjectCanAccessFileContents": "此项目中的聊天可以访问文件内容。",
+      "writeHowTheChatbotShouldRespondToThisProjectOrWhatInformationItNeeds": "写下AI应该如何响应此项目或需要什么信息。",
+      "conversationList": "对话列表",
+      "enterNewPromptToStartYourFirstConversation": "输入新提示开始您的第一次对话",
+      "noConversationsYet": "暂无对话",
+      "projectInstructions": "项目指令",
+      "projectInstructionsUpdated": "项目指令已更新",
+      "howCanTheChatBotBestHelpYouWithThisProject": "AI如何最好地帮助您处理这个项目？",
+      "youCanAskTheChatBotToFocusOnASpecificTopicOrToRespondInAParticularToneOrFormat": "您可以要求AI专注于特定主题或以特定语调或格式回应。",
+      "instructions": "指令"
     }
   },
   "Layout": {
@@ -222,7 +247,6 @@
     "theme": "主题",
     "signOut": "登出",
     "language": "语言",
-
     "showAllChats": "查看所有聊天",
     "showLessChats": "显示更少",
     "reportAnIssue": "报告问题",
