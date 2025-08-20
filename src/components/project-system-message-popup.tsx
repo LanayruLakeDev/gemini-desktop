@@ -50,12 +50,11 @@ export function ProjectSystemMessagePopup({
       .ifOk(() => onOpenChange(false))
       .ifFail(handleErrorWithToast);
   };
-  
   useEffect(() => {
     if (isOpen) {
       setSystemPrompt(beforeSystemMessage || "");
     }
-  }, [isOpen, beforeSystemMessage]);
+  }, [isOpen]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>

@@ -117,4 +117,3 @@ temp/
 # Don't ignore migration files - they need to be committed for deployment
 # **/migrations/**/*.sql
 *.db-journal
-src/lib/db/migrations/pg/0013_safe_project_migration.sql
