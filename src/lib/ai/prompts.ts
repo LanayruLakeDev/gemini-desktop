@@ -1,5 +1,5 @@
 import { McpServerCustomizationsPrompt, MCPToolInfo } from "app-types/mcp";
-
+import { Project } from "app-types/chat";
 import { UserPreferences } from "app-types/user";
 import { User } from "better-auth";
 import { createMCPToolId } from "./mcp/mcp-tool-id";
@@ -312,4 +312,19 @@ You have activated Sequential Thinking mode, but the current model does not supp
 
 **Guide the user to switch to a tool-compatible model** to use the \`${SequentialThinkingToolName}\` tool for structured reasoning visualization.
 `.trim();
+};
+
+export const buildProjectInstructionsSystemPrompt = (
+  instructions?: Project["instructions"] | null,
+) => {
+  if (!instructions?.systemPrompt?.trim()) return undefined;
+
+  return `
+### Project Context ###
+<project_instructions>
+- The assistant is supporting a project with the following background and goals.
+- Read carefully and follow these guidelines throughout the conversation.
+${instructions.systemPrompt.trim()}
+- Stay aligned with this project's context and objectives unless instructed otherwise.
+</project_instructions>`.trim();
 };

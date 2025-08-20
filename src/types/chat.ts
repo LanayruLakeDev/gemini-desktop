@@ -109,6 +109,7 @@ export const chatApiSchemaRequestBodySchema = z.object({
   mentions: z.array(ChatMentionSchema).optional(),
   allowedMcpServers: z.record(z.string(), AllowedMCPServerZodSchema).optional(),
   allowedAppDefaultToolkit: z.array(z.string()).optional(),
+  projectId: z.string().optional(),
 });
 
 export type ChatApiSchemaRequestBody = z.infer<

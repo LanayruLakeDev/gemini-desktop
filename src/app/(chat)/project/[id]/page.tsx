@@ -2,9 +2,12 @@
 import { selectProjectByIdAction } from "@/app/api/chat/actions";
 import { appStore } from "@/app/store";
 import { ProjectDropdown } from "@/components/project-dropdown";
+import { ProjectSystemMessagePopup } from "@/components/project-system-message-popup";
 import PromptInput from "@/components/prompt-input";
 import { ThreadDropdown } from "@/components/thread-dropdown";
+import { useToRef } from "@/hooks/use-latest";
 import { useChat } from "@ai-sdk/react";
+import { ChatApiSchemaRequestBody, Project } from "app-types/chat";
 import { generateUUID } from "lib/utils";
 
 import {
@@ -19,7 +22,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { Button } from "ui/button";
 import { notImplementedToast } from "ui/shared-toast";
 import { Skeleton } from "ui/skeleton";
@@ -70,6 +73,8 @@ export default function ProjectPage() {
   const router = useRouter();
   const threadId = useMemo(() => generateUUID(), []);
 
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
   const [
     appStoreMutate,
     model,
@@ -86,39 +91,55 @@ export default function ProjectPage() {
     ]),
   );
 
-  const [isCreatingThread, setIsCreatingThread] = useState(false);
+  const latestRef = useToRef({
+    model,
+    toolChoice,
+    allowedMcpServers,
+    allowedAppDefaultToolkit,
+  });
 
-  const { input, append, setInput, isLoading: isChatLoading, stop } = useChat({
+  const { input, setInput, append, stop, status } = useChat({
     id: threadId,
     api: "/api/chat",
-    streamProtocol: "text",
+    experimental_prepareRequestBody: ({ messages }) => {
+      const request: ChatApiSchemaRequestBody = {
+        id: threadId,
+        chatModel: latestRef.current.model,
+        toolChoice: latestRef.current.toolChoice,
+        allowedAppDefaultToolkit: latestRef.current.allowedAppDefaultToolkit,
+        allowedMcpServers: latestRef.current.allowedMcpServers,
+        projectId: id as string,
+        message: messages.at(-1)!,
+      };
+      return request;
+    },
+    initialMessages: [],
+    sendExtraMessageFields: true,
+    generateId: generateUUID,
+    experimental_throttle: 100,
     onFinish: () => {
-      setIsCreatingThread(false);
-      router.push(`/chat/${threadId}`);
-    },
-    onError: () => {
-      setIsCreatingThread(false);
-    },
-    body: {
-      id: threadId,
-      chatModel: model,
-      toolChoice,
-      allowedMcpServers,
-      allowedAppDefaultToolkit,
+      mutate("threads").then(() => {
+        router.push(`/chat/${threadId}`);
+      });
     },
   });
 
-  useEffect(() => {
-    if (isChatLoading) {
-      setIsCreatingThread(true);
-    }
-  }, [isChatLoading]);
+  const isCreatingThread = useMemo(() => {
+    return status == "submitted" || status == "streaming";
+  }, [status]);
 
   useEffect(() => {
-    if (project) {
-      appStoreMutate({ currentProjectId: project.id });
-    }
-  }, [project, appStoreMutate]);
+    appStoreMutate({
+      currentProjectId: id as string,
+      currentThreadId: threadId,
+    });
+    return () => {
+      appStoreMutate({
+        currentProjectId: undefined,
+        currentThreadId: undefined,
+      });
+    };
+  }, [id, threadId, appStoreMutate]);
 
   if (isLoading) {
     return (
@@ -175,7 +196,7 @@ export default function ProjectPage() {
           input={input}
           append={append}
           setInput={setInput}
-          isLoading={isChatLoading}
+          isLoading={status === "streaming"}
           onStop={stop}
         />
 
@@ -195,7 +216,9 @@ export default function ProjectPage() {
               )
             }
             icon={<Pencil size={18} className="text-muted-foreground" />}
-            onClick={notImplementedToast}
+            onClick={() => {
+              project && setSelectedProject(project);
+            }}
           />
         </div>
 
@@ -252,6 +275,15 @@ export default function ProjectPage() {
           )
         )}
       </div>
+      <ProjectSystemMessagePopup
+        isOpen={!!selectedProject}
+        onOpenChange={() => setSelectedProject(null)}
+        projectId={id as string}
+        beforeSystemMessage={selectedProject?.instructions?.systemPrompt}
+        onSave={() => {
+          fetchProject();
+        }}
+      />
     </div>
   );
 }

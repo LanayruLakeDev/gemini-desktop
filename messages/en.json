@@ -306,6 +306,8 @@
       "noConversationsYet": "No conversations yet",
       "projectInstructions": "Project Instructions",
       "projectInstructionsUpdated": "Project instructions updated",
+      "howCanTheChatBotBestHelpYouWithThisProject": "How can the chat bot best help you with this project?",
+      "youCanAskTheChatBotToFocusOnASpecificTopicOrToRespondInAParticularToneOrFormat": "You can ask the chat bot to focus on a specific topic or to respond in a particular tone or format.",
       "instructions": "Instructions",
       "renameProject": "Rename Project",
       "deleteProject": "Delete Project"

@@ -17,6 +17,7 @@ import { agentRepository, chatRepository } from "lib/db/repository";
 import globalLogger from "logger";
 import {
   buildMcpServerCustomizationsSystemPrompt,
+  buildProjectInstructionsSystemPrompt,
   buildUserSystemPrompt,
   buildToolCallUnsupportedModelSystemPrompt,
   buildThinkingSystemPrompt,
@@ -42,6 +43,7 @@ import {
 import {
   rememberAgentAction,
   rememberMcpServerCustomizationsAction,
+  selectProjectByIdAction,
 } from "./actions";
 import { getSession } from "auth/server";
 import { colorize } from "consola/utils";
@@ -72,6 +74,7 @@ export async function POST(request: Request) {
       allowedMcpServers,
       thinking,
       mentions = [],
+      projectId,
     } = chatApiSchemaRequestBodySchema.parse(json);
 
     const model = customModelProvider.getModel(chatModel);
@@ -84,7 +87,7 @@ export async function POST(request: Request) {
         id,
         title: "",
         userId: session.user.id,
-        projectId: null,
+        projectId: projectId ?? null,
       });
       thread = await chatRepository.selectThreadDetails(newThread.id);
     }
@@ -185,8 +188,15 @@ export async function POST(request: Request) {
           .map((v) => filterMcpServerCustomizations(MCP_TOOLS!, v))
           .orElse({});
 
+        const projectSystemPrompt = projectId
+          ? buildProjectInstructionsSystemPrompt(
+              (await selectProjectByIdAction(projectId))?.instructions,
+            )
+          : undefined;
+
         const systemPrompt = mergeSystemPrompt(
           buildUserSystemPrompt(session.user, userPreferences, agent),
+          projectSystemPrompt,
           buildMcpServerCustomizationsSystemPrompt(mcpServerCustomizations),
           !supportToolCall && buildToolCallUnsupportedModelSystemPrompt,
           (!supportToolCall ||
