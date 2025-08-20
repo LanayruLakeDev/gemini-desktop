@@ -1,15 +1,84 @@
-<img width="1647" alt="thumbnail" loading="lazy" src="https://github.com/user-attachments/assets/7b0f279a-8771-42a0-b8b6-128b3b1a076c" />
+
+
+# Gemini Desktop
 
 [![MCP Supported](https://img.shields.io/badge/MCP-Supported-00c853)](https://modelcontextprotocol.io/introduction)
-[![Local First](https://img.shields.io/badge/Local-First-blue)](https://localfirstweb.dev/)
-[![Discord](https://img.shields.io/discord/1374047276074537103?label=Discord&logo=discord&color=5865F2)](https://discord.gg/gCRu69Upnp)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/LanayruLakeDev/gemini-desktop&env=BETTER_AUTH_SECRET&env=OPENAI_API_KEY&env=GOOGLE_GENERATIVE_AI_API_KEY&env=ANTHROPIC_API_KEY&envDescription=BETTER_AUTH_SECRET+is+required+(enter+any+secret+value).+At+least+one+LLM+provider+API+key+(OpenAI,+Claude,+or+Google)+is+required,+but+you+can+add+all+of+them.+See+the+link+below+for+details.&envLink=https://github.com/LanayruLakeDev/gemini-desktop/blob/main/.env.example&demo-title=gemini-desktop&demo-description=Gemini+Desktop+-+Your+AI+Assistant+Built+With+Next.js+and+the+AI+SDK+by+Vercel.&products=[{"type":"integration","protocol":"storage","productSlug":"neon","integrationSlug":"neon"},{"type":"integration","protocol":"storage","productSlug":"upstash-kv","integrationSlug":"upstash"}])
+A modern AI chat inter```prompt
+1. Use the @tool('web-search') to look up information about "modelcontetprotocol."
 
+2. Then, using : @mcp("playwright")
+   - navigate Google (https://www.google.com)
+   - Click the "Login" button
+   - Enter your email address
+   - Click the "Next" button
+   - Close the browser
+``` with Next.js and the Vercel AI SDK. Features seamless integration with the Model Context Protocol (MCP) for external tools and custom workflows.
 
-See the experience in action in the [preview](#preview) below!
+## Quick Start 🚀
 
-> Built with [Vercel AI SDK](https://sdk.vercel.ai) and [Next.js](https://nextjs.org/), this app adopts modern patterns for building AI chat interfaces. It leverages the power of the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) to seamlessly integrate external tools into your chat experience. You can also create custom workflows that become callable tools in chat, allowing you to chain multiple MCP tools, LLM interactions, and logic into powerful automated sequences.
+```bash
+# Clone and install
+git clone https://github.com/LanayruLakeDev/gemini-desktop.git
+cd gemini-desktop
+npm install -g pnpm  # if needed
+pnpm install
+
+# Setup database (optional - uses local PostgreSQL)
+pnpm docker:pg
+
+# Configure environment variables
+# Edit .env file with your API keys and database URL
+
+# Start the application
+pnpm build:local && pnpm start
+```
+
+Open [http://localhost:3000](http://localhost:3000) to start chatting.
+
+## Features
+
+- **Multi-Model Support**: OpenAI, Anthropic, Google Gemini, and more
+- **MCP Integration**: Connect external tools and services
+- **Project Organization**: Organize conversations into projects with custom instructions
+- **Voice Chat**: Real-time voice conversations
+- **Workflows**: Create custom tool chains and automations
+- **Agent System**: Build specialized AI assistants
+- **Archive System**: Save and organize important conversations
+
+## Environment Setup
+
+Required environment variables:
+
+```env
+# Database
+DATABASE_URL=postgresql://...
+
+# Authentication
+BETTER_AUTH_SECRET=your-random-secret
+
+# At least one AI provider
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
+GOOGLE_GENERATIVE_AI_API_KEY=...
+```
+
+See [.env.example](.env.example) for complete configuration options.
+
+## Documentation
+
+- [MCP Server Setup](docs/tips-guides/mcp-server-setup-and-tool-testing.md)
+- [Docker Hosting](docs/tips-guides/docker.md)
+- [Vercel Deployment](docs/tips-guides/vercel.md)
+- [OAuth Setup](docs/tips-guides/oauth.md)
+
+## Contributing
+
+Contributions welcome! Please read our [contributing guidelines](CONTRIBUTING.md) before submitting PRs.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ### Quick Start 🚀
 
