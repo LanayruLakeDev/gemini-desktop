@@ -28,7 +28,7 @@ const staticModels = {
     }),
   },
   google: {
-    "gemini-2.0-flash-lite": google("gemini-2.0-flash-lite"),
+  "gemini-2.5-flash-lite": google("gemini-2.5-flash-lite"),
     "gemini-2.5-flash": google("gemini-2.5-flash", {}),
     "gemini-2.5-pro": google("gemini-2.5-pro"),
   },
@@ -55,7 +55,7 @@ const staticModels = {
 
 const staticUnsupportedModels = new Set([
   staticModels.openai["o4-mini"],
-  staticModels.google["gemini-2.0-flash-lite"],
+  staticModels.google["gemini-2.5-flash-lite"],
   staticModels.ollama["gemma3:1b"],
   staticModels.ollama["gemma3:4b"],
   staticModels.ollama["gemma3:12b"],
@@ -83,10 +83,21 @@ export const isToolCallUnsupportedModel = (model: LanguageModel) => {
   return allUnsupportedModels.has(model);
 };
 
+// Determine a sensible fallback model. Prefer Google Gemini 2.5 Flash when available
+// (or fall back to other Google flash-lite variants), otherwise use the first
+// provider/model found in the `allModels` map.
 const firstProvider = Object.keys(allModels)[0];
 const firstModel = Object.keys(allModels[firstProvider])[0];
 
-const fallbackModel = allModels[firstProvider][firstModel];
+let preferredFallback: LanguageModel | undefined = undefined;
+// Prefer the newer Gemini model if present
+if (allModels.google?.["gemini-2.5-flash"]) {
+  preferredFallback = allModels.google["gemini-2.5-flash"];
+} else if (allModels.google?.["gemini-2.5-flash-lite"]) {
+  preferredFallback = allModels.google["gemini-2.5-flash-lite"];
+}
+
+const fallbackModel = preferredFallback ?? allModels[firstProvider][firstModel];
 
 export const customModelProvider = {
   modelsInfo: Object.entries(allModels).map(([provider, models]) => ({
