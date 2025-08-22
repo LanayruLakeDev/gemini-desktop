@@ -21,7 +21,7 @@ import {
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 
 import useSWR, { mutate } from "swr";
 import { Button } from "ui/button";
@@ -98,6 +98,8 @@ export default function ProjectPage() {
     threadId,
   });
 
+  const hasNavigatedRef = useRef(false);
+
   const { input, setInput, append, stop, status, messages } = useChat({
     id: threadId,
     api: "/api/chat",
@@ -140,9 +142,8 @@ export default function ProjectPage() {
         }
       }
       
-      mutate("threads").then(() => {
-        router.push(`/chat/${threadId}`);
-      });
+      // Just update threads, don't navigate here
+      mutate("threads");
     },
   });
 
@@ -154,6 +155,14 @@ export default function ProjectPage() {
   const isCreatingThread = useMemo(() => {
     return status == "submitted" || status == "streaming";
   }, [status]);
+
+  // Navigate to chat page as soon as streaming starts
+  useEffect(() => {
+    if (status === "streaming" && !hasNavigatedRef.current) {
+      hasNavigatedRef.current = true;
+      router.push(`/chat/${threadId}`);
+    }
+  }, [status, threadId, router]);
 
   useEffect(() => {
     appStoreMutate({
