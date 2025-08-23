@@ -1,168 +1,151 @@
-<img width="1647" alt="thumbnail" loading="lazy" src="https://github.com/user-attachments/assets/7b0f279a-8771-42a0-b8b6-128b3b1a076c" />
+Gemini Desktop — Technical README
 
-[![MCP Supported](https://img.shields.io/badge/MCP-Supported-00c853)](https://modelcontextprotocol.io/introduction)
-[![Local First](https://img.shields.io/badge/Local-First-blue)](https://localfirstweb.dev/)
-[![Discord](https://img.shields.io/discord/1374047276074537103?label=Discord&logo=discord&color=5865F2)](https://discord.gg/gCRu69Upnp)
+Brief
+-----
+Minimal, extensible AI chat platform built on Next.js and the AI SDK. Focus: MCP tool integration, multi-provider LLM support, and production-ready workflows.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/cgoinglove/better-chatbot&env=BETTER_AUTH_SECRET&env=OPENAI_API_KEY&env=GOOGLE_GENERATIVE_AI_API_KEY&env=ANTHROPIC_API_KEY&envDescription=BETTER_AUTH_SECRET+is+required+(enter+any+secret+value).+At+least+one+LLM+provider+API+key+(OpenAI,+Claude,+or+Google)+is+required,+but+you+can+add+all+of+them.+See+the+link+below+for+details.&envLink=https://github.com/cgoinglove/better-chatbot/blob/main/.env.example&demo-title=better-chatbot&demo-description=An+Open-Source+Chatbot+Template+Built+With+Next.js+and+the+AI+SDK+by+Vercel.&products=[{"type":"integration","protocol":"storage","productSlug":"neon","integrationSlug":"neon"},{"type":"integration","protocol":"storage","productSlug":"upstash-kv","integrationSlug":"upstash"}])
-
-
-See the experience in action in the [preview](#preview) below!
-
-> Built with [Vercel AI SDK](https://sdk.vercel.ai) and [Next.js](https://nextjs.org/), this app adopts modern patterns for building AI chat interfaces. It leverages the power of the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) to seamlessly integrate external tools into your chat experience. You can also create custom workflows that become callable tools in chat, allowing you to chain multiple MCP tools, LLM interactions, and logic into powerful automated sequences.
-
-### Quick Start 🚀
+Quick start
+-----------
+1. Clone & install
 
 ```bash
-# 1. Clone the repository
-
-git clone https://github.com/cgoinglove/better-chatbot.git
-cd better-chatbot
-
-# 2. (Optional) Install pnpm if you don't have it
-
-npm install -g pnpm
-
-# 3. Install dependencies
-
+git clone https://github.com/LanayruLakeDev/gemini-desktop.git
+cd gemini-desktop
 pnpm i
+```
 
-# 4. (Optional) Start a local PostgreSQL instance
+2. Configure `.env` (see `.env.example`) — provide at least one LLM API key and `POSTGRES_URL` if using DB features.
 
-pnpm docker:pg
+3. Run
 
-# If you already have your own PostgreSQL running, you can skip this step.
-# In that case, make sure to update the PostgreSQL URL in your .env file.
+```bash
+pnpm dev            # development
+pnpm build:local && pnpm start  # production-like
+```
 
-# 5. Enter required information in the .env file
+Core technical notes
+--------------------
+- Models registry: `src/lib/ai/models.ts` — defines available LLMs and server fallback (`fallbackModel`).
+- UI models: `/api/chat/models` returns registry order; `useChatModels` seeds `appStore.chatModel` with the first provider/model.
+- Tool support: flagged in `staticUnsupportedModels` and exposed via `isToolCallUnsupportedModel()`; UI shows "No tools" when true and server avoids invoking tools for that model.
+- Thread title gen & navigation: `src/app/(chat)/project/[id]/page.tsx` handles streaming navigation and post-finish title generation.
 
-# The .env file is created automatically. Just fill in the required values.
-# For the fastest setup, provide at least one LLM provider's API key (e.g., OPENAI_API_KEY, CLAUDE_API_KEY, GEMINI_API_KEY, etc.) and the PostgreSQL URL you want to use.
+Environment variables (essential)
+--------------------------------
+Provide keys for desired providers and DB. Minimal example in `.env`:
 
-# 6. Start the server
+```dotenv
+# LLM providers
+GOOGLE_GENERATIVE_AI_API_KEY=...
+OPENAI_API_KEY=...
 
+# Auth
+BETTER_AUTH_SECRET=...
+
+# Database
+POSTGRES_URL=postgres://user:pass@localhost:5432/db
+```
+
+Where to change defaults
+------------------------
+- UI default model: `src/hooks/queries/use-chat-models.ts`
+- Server fallback model: `src/lib/ai/models.ts` (`fallbackModel`)
+- Tool support flags: `src/lib/ai/models.ts` (`staticUnsupportedModels`)
+
+Docs & guides
+-------------
+Stored in `docs/tips-guides/` (MCP setup, Docker, hosting, workflows).
+
+Contributing & license
+----------------------
+- See `CONTRIBUTING.md`.
+- License: MIT (see `LICENSE`).
+
+Minimal, extensible AI chat interface built on Next.js and the AI SDK. Focused on integration with MCP (Model Context Protocol) tools, workflows, and multiple LLM providers.
+
+Quick start (short)
+-------------------
+1. Clone
+
+```bash
+git clone https://github.com/LanayruLakeDev/gemini-desktop.git
+cd gemini-desktop
+```
+
+2. Install
+
+```bash
+pnpm i
+```
+
+3. Configure
+
+- Edit the generated `.env` (see `.env.example`). Provide at least one LLM API key and `POSTGRES_URL` if using DB features.
+
+4. Run
+
+```bash
+# dev
+pnpm dev
+
+# production (local)
 pnpm build:local && pnpm start
-
-# (Recommended for most cases. Ensures correct cookie settings.)
-# For development mode with hot-reloading and debugging, you can use:
-# pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to get started.
+Core technical notes
+--------------------
+- Models registry: `src/lib/ai/models.ts` defines available LLMs and the server fallback.
+  - Server fallback now prefers `gemini-2.5-flash-lite` (fast/cheap) when available.
+  - UI model list is returned from `/api/chat/models` (uses the registry order).
+- Tool support: models flagged as unsupported for tool calls are listed in `staticUnsupportedModels` in `src/lib/ai/models.ts` and exposed via `isToolCallUnsupportedModel()`.
+  - The UI shows a "No tools" badge for these models and the server will avoid tool invocations for them.
+- Thread title generation: project chat title logic lives in `src/app/(chat)/project/[id]/page.tsx` (onFinish title generation, early navigation on streaming).
 
-## Table of Contents
+Environment variables (important)
+---------------------------------
+Provide the keys you intend to use; the app will work with one provider but supports many.
 
-- [Table of Contents](#table-of-contents)
-- [Preview](#preview)
-  - [🧩 Browser Automation with Playwright MCP](#-browser-automation-with-playwright-mcp)
-  - [🔗 Visual Workflows as Custom Tools](#-visual-workflows-as-custom-tools)
-  - [🎙️ Realtime Voice Assistant + MCP Tools](#️-realtime-voice-assistant--mcp-tools)
-  - [⚡️ Quick Tool Mentions (`@`) \& Presets](#️-quick-tool-mentions---presets)
-  - [🧭 Tool Choice Mode](#-tool-choice-mode)
-  - [🛠️ Default Tools](#️-default-tools)
-    - [🌐 Web Search](#-web-search)
-    - [⚡️ JS Executor](#️-js-executor)
-    - [📊 Data Visualization Tools](#-data-visualization-tools)
-- [Getting Started](#getting-started)
-  - [Quick Start (Docker Compose Version) 🐳](#quick-start-docker-compose-version-)
-  - [Quick Start (Local Version) 🚀](#quick-start-local-version-)
-  - [Environment Variables](#environment-variables)
-- [📘 Guides](#-guides)
-    - [🔌 MCP Server Setup \& Tool Testing](#-mcp-server-setup--tool-testing)
-    - [🐳 Docker Hosting Guide](#-docker-hosting-guide)
-    - [▲ Vercel Hosting Guide](#-vercel-hosting-guide)
-    - [🎯 System Prompts \& Chat Customization](#-system-prompts--chat-customization)
-    - [🔐 OAuth Sign-In Setup](#-oauth-sign-in-setup)
-    - [🕵🏿 Adding openAI like providers](#-adding-openai-like-providers)
-- [💡 Tips](#-tips)
-    - [🧠 Agentic Chatbot with Project Instructions](#-agentic-chatbot-with-project-instructions)
-    - [💬 Temporary Chat Windows](#-temporary-chat-windows)
-- [🗺️ Roadmap](#️-roadmap)
-- [🙌 Contributing](#-contributing)
-- [💬 Join Our Discord](#-join-our-discord)
+Examples (put in `.env`):
 
-> This project is evolving at lightning speed! ⚡️ We're constantly shipping new features and smashing bugs. **Star this repo** to join the ride and stay in the loop with the latest updates!
+```dotenv
+# LLM providers (example)
+GOOGLE_GENERATIVE_AI_API_KEY=...
+OPENAI_API_KEY=...
+ANTHROPIC_API_KEY=...
 
-## Preview
+# Auth
+BETTER_AUTH_SECRET=...
 
-Get a feel for the UX — here's a quick look at what's possible.
+# Database (optional)
+POSTGRES_URL=postgres://user:pass@localhost:5432/db
 
-### 🧩 Browser Automation with Playwright MCP
-
-![preview](https://github.com/user-attachments/assets/58b4c561-9b59-40db-9c62-9fd5aeea4432)
-
-**Example:** Control a web browser using Microsoft's [playwright-mcp](https://github.com/microsoft/playwright-mcp) tool.
-
-- The LLM autonomously decides how to use tools from the MCP server, calling them multiple times to complete a multi-step task and return a final message.
-
-Sample prompt:
-
-```prompt
-1. Use the @tool('web-search') to look up information about “modelcontetprotocol.”
-
-2. Then, using : @mcp("playwright")
-   - navigate Google (https://www.google.com)
-   - Click the “Login” button
-   - Enter my email address (neo.cgoing@gmail.com)
-   - Clock the "Next"  button
-   - Close the browser
+# Optional tooling
+EXA_API_KEY=...
 ```
 
-<br/>
+Developer notes
+---------------
+- Package manager: `pnpm` (recommended)
+- Run tests: see `vitest.config.ts` (project uses Vitest)
+- Lint and typecheck: standard Next.js/TypeScript tooling
 
-### 🔗 Visual Workflows as Custom Tools
+Where to change defaults
+------------------------
+- UI default model selection: `src/hooks/queries/use-chat-models.ts` (sets initial `appStore.chatModel`).
+- Server fallback model: `src/lib/ai/models.ts` (variable `fallbackModel`).
+- Tool support flags: `src/lib/ai/models.ts` (`staticUnsupportedModels`).
 
-<img width="1755" alt="workflow" src="https://github.com/user-attachments/assets/afa895f0-cc59-4c2f-beb3-4b7a1dc1f891" loading="lazy" />
+More documentation
+------------------
+- Guides and deeper docs live in `docs/tips-guides/` (MCP setup, Docker, Vercel hosting, workflows).
 
-<img width="1567" alt="workflow-mention" loading="lazy" src="https://github.com/user-attachments/assets/cf3e1339-ee44-4615-a71d-f6b46833e41f" />
+Contributing
+------------
+- See `CONTRIBUTING.md` for guidelines. Keep changes small and add tests where relevant.
 
-**Example:** Create custom workflows that become callable tools in your chat conversations.
-
-- Build visual workflows by connecting LLM nodes (for AI reasoning) and Tool nodes (for MCP tool execution)
-- Publish workflows to make them available as `@workflow_name` tools in chat
-- Chain complex multi-step processes into reusable, automated sequences
-
-<br/>
-
-### 🎙️ Realtime Voice Assistant + MCP Tools
-
-<p align="center">
-  <video src="https://github.com/user-attachments/assets/e2657b8c-ce0b-40dd-80b6-755324024973" width="100%" />
-</p>
-
-This demo showcases a **realtime voice-based chatbot assistant** built with OpenAI's new Realtime API — now extended with full **MCP tool integration**.
-Talk to the assistant naturally, and watch it execute tools in real time.
-
-### ⚡️ Quick Tool Mentions (`@`) & Presets
-
-<img width="1225" alt="image" src="https://github.com/user-attachments/assets/4d56dd25-a94c-4c19-9efa-fd7b5d3d2187" loading="lazy"/>
-
-Quickly call tool during chat by typing `@toolname`.
-No need to memorize — just type `@` and pick from the list!
-
-**Tool Selection vs. Mentions (`@`) — When to Use What:**
-
-- **Tool Selection**: Make frequently used tools always available to the LLM across all chats. Great for convenience and maintaining consistent context over time.
-- **Mentions (`@`)**: Temporarily bind only the mentioned tools for that specific response. Since only the mentioned tools are sent to the LLM, this saves tokens and can improve speed and accuracy.
-
-Each method has its own strengths — use them together to balance efficiency and performance.
-
-You can also create **tool presets** by selecting only the MCP servers or tools you need.
-Switch between presets instantly with a click — perfect for organizing tools by task or workflow.
-
-### 🧭 Tool Choice Mode
-
-<img width="1225" alt="image" src="https://github.com/user-attachments/assets/8fc64c6a-30c9-41a4-a5e5-4e8804f73473" loading="lazy"/>
-
-Control how tools are used in each chat with **Tool Choice Mode** — switch anytime with `⌘P`.
-
-- **Auto:** The model automatically calls tools when needed.
-- **Manual:** The model will ask for your permission before calling a tool.
-- **None:** Tool usage is disabled completely.
-
-This lets you flexibly choose between autonomous, guided, or tool-free interaction depending on the situation.
-
-### 🛠️ Default Tools
+License
+-------
+MIT (see `LICENSE`)
 
 #### 🌐 Web Search
 
@@ -367,11 +350,7 @@ Planned features coming soon to better-chatbot:
 - [ ] **RAG (Retrieval-Augmented Generation)**
 - [ ] **Web-based Compute** (with [WebContainers](https://webcontainers.io) integration)
 
-💡 If you have suggestions or need specific features, please create an [issue](https://github.com/cgoinglove/better-chatbot/issues)!
-
-## 🙌 Contributing
-
-We welcome all contributions! Bug reports, feature ideas, code improvements — everything helps us build the best local AI assistant.
+This project is a fork of [cgoinglove/better-chatbot](https://github.com/cgoinglove/better-chatbot). We are grateful for their work and contributions which formed the base for this repository!
 
 > **⚠️ Please read our [Contributing Guide](./CONTRIBUTING.md) before submitting any Pull Requests or Issues.** This helps us work together more effectively and saves time for everyone.
 
@@ -381,8 +360,3 @@ We welcome all contributions! Bug reports, feature ideas, code improvements — 
 
 Let's build it together 🚀
 
-## 💬 Join Our Discord
-
-[![Discord](https://img.shields.io/discord/1374047276074537103?label=Discord&logo=discord&color=5865F2)](https://discord.gg/gCRu69Upnp)
-
-Connect with the community, ask questions, and get support on our official Discord server!
