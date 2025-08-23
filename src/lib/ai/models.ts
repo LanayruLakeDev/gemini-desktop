@@ -22,6 +22,8 @@ const staticModels = {
     "gemini-2.5-flash-lite": google("gemini-2.5-flash-lite"),
     "gemini-2.5-flash": google("gemini-2.5-flash", {}),
     "gemini-2.5-pro": google("gemini-2.5-pro"),
+  "gemini-2.0-flash": google("gemini-2.0-flash"),
+  "gemini-2.0-flash-lite": google("gemini-2.0-flash-lite"),
   },
   openai: {
     "gpt-4.1": openai("gpt-4.1"),
@@ -90,11 +92,11 @@ const firstProvider = Object.keys(allModels)[0];
 const firstModel = Object.keys(allModels[firstProvider])[0];
 
 let preferredFallback: LanguageModel | undefined = undefined;
-// Prefer the newer Gemini model if present
-if (allModels.google?.["gemini-2.5-flash"]) {
-  preferredFallback = allModels.google["gemini-2.5-flash"];
-} else if (allModels.google?.["gemini-2.5-flash-lite"]) {
+// Prefer the cheaper/faster Gemini flash-lite model if present
+if (allModels.google?.["gemini-2.5-flash-lite"]) {
   preferredFallback = allModels.google["gemini-2.5-flash-lite"];
+} else if (allModels.google?.["gemini-2.5-flash"]) {
+  preferredFallback = allModels.google["gemini-2.5-flash"];
 }
 
 const fallbackModel = preferredFallback ?? allModels[firstProvider][firstModel];
