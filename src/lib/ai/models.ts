@@ -57,7 +57,6 @@ const staticModels = {
 
 const staticUnsupportedModels = new Set([
   staticModels.openai["o4-mini"],
-  staticModels.google["gemini-2.5-flash-lite"],
   staticModels.ollama["gemma3:1b"],
   staticModels.ollama["gemma3:4b"],
   staticModels.ollama["gemma3:12b"],
